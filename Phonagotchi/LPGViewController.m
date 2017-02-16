@@ -146,6 +146,7 @@
     self.appleImageViewCopy.translatesAutoresizingMaskIntoConstraints = YES;
     
     
+    
     //PETTING!
     UIPanGestureRecognizer *petting = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pettingGesture:)];
     
@@ -182,13 +183,15 @@
     
     CGPoint location = [feeding locationInView:self.view];
     
+    CGRect newFrame;
+    
     if((feeding.state == UIGestureRecognizerStateBegan || feeding.state == UIGestureRecognizerStateChanged)){
         
         [self.myPhonagotchi feedsAt:location];
         
         if(self.myPhonagotchi.makeAnotherApple == YES){
             
-            CGRect newFrame = CGRectMake(50, 510, self.appleImageView.frame.size.width, self.appleImageView.frame.size.height);
+            newFrame = CGRectMake(50, 510, self.appleImageView.frame.size.width, self.appleImageView.frame.size.height);
             self.appleImageViewCopy.frame = newFrame;
             
             [self.view addSubview:self.appleImageViewCopy];
@@ -216,13 +219,13 @@
         
         }else{
             
-            UIGravityBehavior *gravity = [[UIGravityBehavior alloc] init];
-            
             [UIImageView animateWithDuration:0.5
-                                       delay:0
-                                     options:0
-                                  animations:^{[gravity addItem:self.appleImageViewCopy];}
+                                       delay:1.0
+                                     options:UIViewAnimationOptionCurveEaseIn
+                                  animations:^{self.appleImageViewCopy.frame = CGRectMake((location.x), (location.y-500), self.appleImageViewCopy.frame.size.width, self.appleImageViewCopy.frame.size.height);}
                                   completion:^(BOOL finished){self.appleImageViewCopy.hidden = YES;}];
+            
+       
 
             
         }
