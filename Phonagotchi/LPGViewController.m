@@ -7,10 +7,17 @@
 //
 
 #import "LPGViewController.h"
+#import "MyPhonagotchi.h"
 
 @interface LPGViewController ()
 
 @property (nonatomic) UIImageView *petImageView;
+@property (nonatomic) UIImageView *appleImageView;
+@property (nonatomic) UIImageView *bucketImageView;
+
+@property (nonatomic, strong) MyPhonagotchi *myPhonagotchi;
+
+
 
 @end
 
@@ -19,6 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.myPhonagotchi = [[MyPhonagotchi alloc] init];
 	
     self.view.backgroundColor = [UIColor colorWithRed:(252.0/255.0) green:(240.0/255.0) blue:(228.0/255.0) alpha:1.0];
     
@@ -45,6 +54,142 @@
                                                          multiplier:1.0
                                                            constant:0.0]];
     
+    //BUCKET!!!!
+    self.bucketImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.bucketImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.bucketImageView.image = [UIImage imageNamed:@"bucket"];
+    
+    [self.view addSubview:self.bucketImageView];
+    self.bucketImageView.alpha = 0.8;
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                           attribute:NSLayoutAttributeWidth
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:50]];
+    
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                           attribute:NSLayoutAttributeHeight
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:nil
+                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                          multiplier:1
+                                                            constant:50]];
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                           attribute:NSLayoutAttributeTop
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.view
+                                                           attribute:NSLayoutAttributeTop
+                                                          multiplier:1
+                                                            constant:500]];
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.bucketImageView
+                                                           attribute:NSLayoutAttributeLeft
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.view
+                                                           attribute:NSLayoutAttributeLeft
+                                                          multiplier:1
+                                                            constant:40]];
+    
+    //// APPLE!!!!
+    self.appleImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+    self.appleImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    self.appleImageView.image = [UIImage imageNamed:@"apple"];
+    
+    [self.bucketImageView addSubview:self.appleImageView];
+    
+
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.appleImageView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:nil
+                                                                  attribute:NSLayoutAttributeNotAnAttribute
+                                                                 multiplier:1
+                                                                   constant:25]];
+
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.appleImageView
+                                                                   attribute:NSLayoutAttributeHeight
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:nil
+                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                  multiplier:1
+                                                                    constant:25]];
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.appleImageView
+                                                           attribute:NSLayoutAttributeTop
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.view
+                                                           attribute:NSLayoutAttributeTop
+                                                          multiplier:1
+                                                            constant:510]];
+    
+    [self.view addConstraint: [NSLayoutConstraint constraintWithItem:self.appleImageView
+                                                           attribute:NSLayoutAttributeLeft
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:self.view
+                                                           attribute:NSLayoutAttributeLeft
+                                                          multiplier:1
+                                                            constant:50]];
+    
+    
+    //PETTING!
+    UIPanGestureRecognizer *petting = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pettingGesture:)];
+    
+    [self.view addGestureRecognizer:petting];
+    
+    
+    //FEEDING!!
+    UIPinchGestureRecognizer *feeding = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(feedingGesture:)];
+    
+    [self.view addGestureRecognizer:feeding];
+    
+    
+    
+    
+    
+}
+
+- (void)pettingGesture:(UIPanGestureRecognizer *)petting
+{
+    
+    CGPoint velocityOfPet = [petting velocityInView:self.view];
+    
+    [self.myPhonagotchi pettingVelocity:velocityOfPet];
+    
+    if (self.myPhonagotchi.isPetGrumpy == YES) {
+        
+        self.petImageView.image = [UIImage imageNamed:@"grumpy"];
+        
+    }
+}
+
+- (void)feedingGesture:(UIPinchGestureRecognizer *)feeding
+{
+    CGPoint location = [feeding locationInView:self.view];
+    
+    if(feeding.state == UIGestureRecognizerStateBegan){
+        
+        
+
+    }
+    
+    if(feeding.state == UIGestureRecognizerStateChanged){
+        NSLog(@"Changed! %f, %f", location.x, location.y);
+        
+    }
+    
+    if(feeding.state == UIGestureRecognizerStateEnded){
+        NSLog(@"Ended! %f, %f", location.x, location.y);
+        
+    }
 }
 
 @end

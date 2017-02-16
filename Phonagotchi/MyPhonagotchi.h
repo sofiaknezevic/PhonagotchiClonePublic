@@ -13,5 +13,6 @@
 @property (readonly) BOOL isPetGrumpy;
 
 - (void) pettingVelocity:(CGPoint) velocity;
+- (void) feedsAt:(CGPoint)x andAt:(CGPoint)y;
 
 @end
