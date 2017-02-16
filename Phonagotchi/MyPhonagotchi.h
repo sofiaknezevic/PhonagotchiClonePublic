@@ -11,8 +11,11 @@
 @interface MyPhonagotchi : NSObject
 
 @property (readonly) BOOL isPetGrumpy;
+@property (readonly) BOOL makeAnotherApple;
+@property (readonly) BOOL giveCatApple;
 
 - (void) pettingVelocity:(CGPoint) velocity;
-- (void) feedsAt:(CGPoint)x andAt:(CGPoint)y;
+- (void) feedsAt:(CGPoint)location;
+- (void) didFeedAt:(CGPoint)location;
 
 @end

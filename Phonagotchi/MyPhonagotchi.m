@@ -15,6 +15,8 @@
     self = [super init];
     if (self) {
         _isPetGrumpy = NO;
+        _makeAnotherApple = NO;
+        _giveCatApple = NO;
     }
     return self;
 }
@@ -34,8 +36,33 @@
     
 }
 
-- (void)feedsAt:(CGPoint)x andAt:(CGPoint)y
+- (void)feedsAt:(CGPoint)location
 {
+    if((location.x >= 55 && location.y >= 290) || (location.x <= 75 && location.y <= 315)){
+        
+        _makeAnotherApple = YES;
+        
+    }else{
+        
+        _makeAnotherApple = NO;
+        
+    }
+}
+
+-(void)didFeedAt:(CGPoint)location
+{
+    
+    if((location.x >= 80 && location.y >= 290 ) || (location.x <= 100 && location.y <= 320)){
+        
+        NSLog(@"You gave the cat the apple!!");
+        
+        _giveCatApple = YES;
+        
+    }else{
+        
+        _giveCatApple = NO;
+        
+    }
     
 }
 

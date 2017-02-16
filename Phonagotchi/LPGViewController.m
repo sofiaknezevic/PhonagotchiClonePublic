@@ -13,6 +13,7 @@
 
 @property (nonatomic) UIImageView *petImageView;
 @property (nonatomic) UIImageView *appleImageView;
+@property (nonatomic) UIImageView *appleImageViewCopy;
 @property (nonatomic) UIImageView *bucketImageView;
 
 @property (nonatomic, strong) MyPhonagotchi *myPhonagotchi;
@@ -139,6 +140,11 @@
                                                           multiplier:1
                                                             constant:50]];
     
+
+
+    self.appleImageViewCopy = [[UIImageView alloc] initWithImage:self.appleImageView.image];
+    self.appleImageViewCopy.translatesAutoresizingMaskIntoConstraints = YES;
+    
     
     //PETTING!
     UIPanGestureRecognizer *petting = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pettingGesture:)];
@@ -173,23 +179,58 @@
 
 - (void)feedingGesture:(UIPinchGestureRecognizer *)feeding
 {
+    
     CGPoint location = [feeding locationInView:self.view];
     
-    if(feeding.state == UIGestureRecognizerStateBegan){
+    if((feeding.state == UIGestureRecognizerStateBegan || feeding.state == UIGestureRecognizerStateChanged)){
         
+        [self.myPhonagotchi feedsAt:location];
         
+        if(self.myPhonagotchi.makeAnotherApple == YES){
+            
+            CGRect newFrame = CGRectMake(50, 510, self.appleImageView.frame.size.width, self.appleImageView.frame.size.height);
+            self.appleImageViewCopy.frame = newFrame;
+            
+            [self.view addSubview:self.appleImageViewCopy];
+            
+
+            CGPoint touchLocation = [feeding locationInView:self.view];
+            self.appleImageViewCopy.center = touchLocation;
+        }
 
     }
     
-    if(feeding.state == UIGestureRecognizerStateChanged){
-        NSLog(@"Changed! %f, %f", location.x, location.y);
-        
-    }
-    
     if(feeding.state == UIGestureRecognizerStateEnded){
-        NSLog(@"Ended! %f, %f", location.x, location.y);
         
+        [self.myPhonagotchi didFeedAt:location];
+        
+        if(self.myPhonagotchi.giveCatApple == YES){
+            
+            [UIImageView animateWithDuration:1.0
+                                       delay:1.0
+                                     options:0
+                                  animations:^{self.appleImageViewCopy.alpha = 0.0f;}
+                                  completion:^(BOOL finished){self.appleImageViewCopy.hidden = YES;}];
+            
+            
+        
+        }else{
+            
+            UIGravityBehavior *gravity = [[UIGravityBehavior alloc] init];
+            
+            [UIImageView animateWithDuration:0.5
+                                       delay:0
+                                     options:0
+                                  animations:^{[gravity addItem:self.appleImageViewCopy];}
+                                  completion:^(BOOL finished){self.appleImageViewCopy.hidden = YES;}];
+
+            
+        }
+        
+        
+    
     }
 }
+
 
 @end
