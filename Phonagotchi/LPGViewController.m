@@ -140,11 +140,6 @@
                                                           multiplier:1
                                                             constant:50]];
     
-
-
-    self.appleImageViewCopy = [[UIImageView alloc] initWithImage:self.appleImageView.image];
-    self.appleImageViewCopy.translatesAutoresizingMaskIntoConstraints = YES;
-    
     
     
     //PETTING!
@@ -159,6 +154,9 @@
     [self.view addGestureRecognizer:feeding];
     
     
+    //COPY OF APPLE!!!
+    self.appleImageViewCopy = [[UIImageView alloc] initWithImage:self.appleImageView.image];
+    self.appleImageViewCopy.translatesAutoresizingMaskIntoConstraints = YES;
     
     
     
@@ -184,6 +182,7 @@
     CGPoint location = [feeding locationInView:self.view];
     
     CGRect newFrame;
+
     
     if((feeding.state == UIGestureRecognizerStateBegan || feeding.state == UIGestureRecognizerStateChanged)){
         
@@ -196,7 +195,9 @@
             
             [self.view addSubview:self.appleImageViewCopy];
             
-
+        
+            self.appleImageViewCopy.alpha = 1;
+            
             CGPoint touchLocation = [feeding locationInView:self.view];
             self.appleImageViewCopy.center = touchLocation;
         }
@@ -213,24 +214,23 @@
                                        delay:1.0
                                      options:0
                                   animations:^{self.appleImageViewCopy.alpha = 0.0f;}
-                                  completion:^(BOOL finished){self.appleImageViewCopy.hidden = YES;}];
+                                  completion:nil];
+            
             
             
         
         }else{
             
-            [UIImageView animateWithDuration:0.5
-                                       delay:1.0
+            [UIImageView animateWithDuration:1.0
+                                       delay:0.5
                                      options:UIViewAnimationOptionCurveEaseIn
-                                  animations:^{self.appleImageViewCopy.frame = CGRectMake((location.x), (location.y-500), self.appleImageViewCopy.frame.size.width, self.appleImageViewCopy.frame.size.height);}
-                                  completion:^(BOOL finished){self.appleImageViewCopy.hidden = YES;}];
+                                  animations:^{self.appleImageViewCopy.frame = CGRectMake((location.x), (location.y+500), self.appleImageViewCopy.frame.size.width, self.appleImageViewCopy.frame.size.height);}
+                                  completion:nil];
             
        
 
             
         }
-        
-        
     
     }
 }
