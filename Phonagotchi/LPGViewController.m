@@ -18,8 +18,6 @@
 
 @property (nonatomic, strong) MyPhonagotchi *myPhonagotchi;
 
-
-
 @end
 
 @implementation LPGViewController
@@ -215,9 +213,7 @@
                                      options:0
                                   animations:^{self.appleImageViewCopy.alpha = 0.0f;}
                                   completion:nil];
-            
-            
-            
+
         
         }else{
             
@@ -226,10 +222,7 @@
                                      options:UIViewAnimationOptionCurveEaseIn
                                   animations:^{self.appleImageViewCopy.frame = CGRectMake((location.x), (location.y+500), self.appleImageViewCopy.frame.size.width, self.appleImageViewCopy.frame.size.height);}
                                   completion:nil];
-            
-       
 
-            
         }
     
     }
